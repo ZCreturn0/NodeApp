@@ -11,6 +11,7 @@
 
 <script>
     import tools from '@/util/tools';
+    import Barrage from '@/model/Barrage';
     export default {
         name: 'login',
         data() {
@@ -19,25 +20,47 @@
                 canvasHeight: 0,
                 // 弹幕
                 barrage: [
-                    '2333333', '66666666', '前面的别跑', '来个大神分析一下', '不懂就选C', '选最长的', '收藏等于学习', '扫码登录干嘛,愣着呀'
+                    '2333333', '66666666', '前面的别跑', '来个大神分析一下', '不懂就选C', '选最长的', '收藏等于学习', '扫码干嘛,愣着呀'
                 ],
                 // 颜色
-                colors: [],
+                colors: ['#fff', '#ccc', 'red'],
                 // 帧率
-                FPS: 60
+                FPS: 60,
+                canvas: null
             }
         },
         methods: {
+            // 获取随机弹幕
             getRandomBarrage(){
                 return this.barrage[tools.randomInRange(0, this.barrage.length)];
+            },
+            // 获取随机颜色
+            getRandomColor(){
+                return this.colors[tools.randomInRange(0, this.colors.length)];
+            },
+            // 初始化 canvas
+            initCanvas(){
+                // 设置 canvas 宽高
+                this.canvasWidth = this.$refs.login.getBoundingClientRect().width;
+                this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
+                this.canvas = this.$refs.canvas;
+                let ctx = this.canvas.getContext('2d');
+                let img = new Image();
+                img.onload = () => {
+                    // 把背景图画到 canvas 上
+                    ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
+                };
+                // 加载背景图
+                img.src = require('../assets/login/loginBG.png');
+            },
+            // 生成弹幕
+            createBarrage(){
+                let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, tools.randomInRange(0, this.canvasHeight), this.canvas);
             }
         },
         mounted(){
-            this.canvasWidth = this.$refs.login.getBoundingClientRect().width;
-            this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
-            // for(let i=0;i<10;i++){
-            //     console.log(this.getRandomBarrage());
-            // }
+            this.initCanvas();
+            this.createBarrage();
         }
     }
 </script>
