@@ -26,7 +26,8 @@
                 colors: ['#fff', '#ccc', 'red'],
                 // 帧率
                 FPS: 60,
-                canvas: null
+                canvas: null,
+                ctx: null
             }
         },
         methods: {
@@ -44,18 +45,20 @@
                 this.canvasWidth = this.$refs.login.getBoundingClientRect().width;
                 this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
                 this.canvas = this.$refs.canvas;
-                let ctx = this.canvas.getContext('2d');
+                this.ctx = this.canvas.getContext('2d');
                 let img = new Image();
                 img.onload = () => {
                     // 把背景图画到 canvas 上
-                    ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
+                    this.ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
                 };
                 // 加载背景图
                 img.src = require('../assets/login/loginBG.png');
             },
             // 生成弹幕
             createBarrage(){
-                let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, tools.randomInRange(0, this.canvasHeight), this.canvas);
+                let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, tools.randomInRange(0, this.canvasHeight), this.ctx);
+                barrage.init();
+                barrage.draw();
             }
         },
         mounted(){
