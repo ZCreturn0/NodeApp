@@ -47,13 +47,6 @@
                 this.canvas = this.$refs.canvas;
                 this.ctx = this.canvas.getContext('2d');
 
-                this.ctx.font = '16px 微软雅黑';
-                this.ctx.fillStyle = '#ccc';
-                this.ctx.textAlign = "center";
-                this.ctx.textBaseline = "middle";
-                this.ctx.fillText('aaaaa', 100, 200);
-
-
                 // let img = new Image();
                 // img.onload = () => {
                 //     // 把背景图画到 canvas 上
@@ -71,7 +64,9 @@
         },
         mounted(){
             this.initCanvas();
-            // this.createBarrage();
+            this.$nextTick(() => {
+                this.createBarrage();
+            });
         }
     }
 </script>
