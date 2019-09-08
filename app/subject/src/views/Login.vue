@@ -46,13 +46,21 @@
                 this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
                 this.canvas = this.$refs.canvas;
                 this.ctx = this.canvas.getContext('2d');
-                let img = new Image();
-                img.onload = () => {
-                    // 把背景图画到 canvas 上
-                    this.ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
-                };
-                // 加载背景图
-                img.src = require('../assets/login/loginBG.png');
+
+                this.ctx.font = '16px 微软雅黑';
+                this.ctx.fillStyle = '#ccc';
+                this.ctx.textAlign = "center";
+                this.ctx.textBaseline = "middle";
+                this.ctx.fillText('aaaaa', 100, 200);
+
+
+                // let img = new Image();
+                // img.onload = () => {
+                //     // 把背景图画到 canvas 上
+                //     this.ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
+                // };
+                // // 加载背景图
+                // img.src = require('../assets/login/loginBG.png');
             },
             // 生成弹幕
             createBarrage(){
@@ -63,7 +71,7 @@
         },
         mounted(){
             this.initCanvas();
-            this.createBarrage();
+            // this.createBarrage();
         }
     }
 </script>
