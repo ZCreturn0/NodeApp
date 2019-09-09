@@ -51,20 +51,10 @@
             getRandomColor(){
                 return this.colors[tools.randomInRange(0, this.colors.length)];
             },
-            // 初始化 canvas
-            initCanvas(){
-                // 设置 canvas 宽高
-                this.canvasWidth = this.$refs.login.getBoundingClientRect().width;
-                this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
-
-                // 负责背景图
+            // 画背景图
+            drawImage(){
                 let canvas = this.$refs.bg;
                 let ctx = canvas.getContext('2d');
-
-                // 负责弹幕
-                this.canvas = this.$refs.canvas;
-                this.ctx = this.canvas.getContext('2d');
-
                 let img = new Image();
                 img.onload = () => {
                     // 把背景图画到 canvas 上
@@ -75,6 +65,16 @@
                 // 加载背景图
                 img.src = require('../assets/login/loginBG.png');
             },
+            // 初始化 canvas
+            initCanvas(){
+                // 设置 canvas 宽高
+                this.canvasWidth = this.$refs.login.getBoundingClientRect().width;
+                this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
+                this.drawImage();
+                // 负责弹幕
+                this.canvas = this.$refs.canvas;
+                this.ctx = this.canvas.getContext('2d');
+            },
             // 生成弹幕
             createBarrage(){
                 // 获得弹幕机单例
@@ -83,6 +83,7 @@
                 barrageDirector.setCanvas(this.ctx, this.canvasWidth, this.canvasHeight);
                 // 设置帧率
                 barrageDirector.setFPS(this.FPS);
+                // 生成弹幕
                 for(let i = 0;i < this.numberOfBarrage; i++){
                     let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, tools.randomInRange(0, this.canvasHeight), this.ctx);
                     // 初始化弹幕
