@@ -35,9 +35,12 @@
                 ],
                 // 颜色
                 // 踩坑提示: 颜色不要与背景色一样
-                colors: ['#fff', '#ccc', 'red', '#58b21e', '#d3b31e', '#6dbaed'],
+                colors: [
+                    '#fff', '#ccc', 'red', '#58b21e', '#d3b31e', '#6dbaed', '#e16db3', '#5dce97', '#0b76c',
+                    '#ffc300', '#d5ffc7'
+                ],
                 // 帧率
-                FPS: 200,
+                FPS: 100,
                 canvas: null,
                 ctx: null,
                 // 弹幕数量
