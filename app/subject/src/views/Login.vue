@@ -12,6 +12,7 @@
 <script>
     import tools from '@/util/tools';
     import Barrage from '@/model/Barrage';
+    import BarrageDirector from '@/model/BarrageDirector';
     export default {
         name: 'login',
         data() {
@@ -24,11 +25,13 @@
                 ],
                 // 颜色
                 // 踩坑提示: 颜色不要与背景色一样
-                colors: ['#fff', '#ccc', 'red'],
+                colors: ['#000', '#ccc', 'red'],
                 // 帧率
                 FPS: 60,
                 canvas: null,
-                ctx: null
+                ctx: null,
+                // 弹幕数量
+                numberOfBarrage: 20
             }
         },
         methods: {
@@ -60,10 +63,19 @@
             },
             // 生成弹幕
             createBarrage(){
-                let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, tools.randomInRange(0, this.canvasHeight), this.ctx);
-                barrage.init();
-                barrage.draw();
-                // barrage.move();
+                // 获得弹幕机单例
+                let barrageDirector = BarrageDirector.getInstance();
+                // 设置 canvas 属性
+                barrageDirector.setCanvas(this.ctx, this.canvasWidth, this.canvasHeight, require('../assets/login/loginBG.png'));
+                // 设置帧率
+                barrageDirector.setFPS(this.FPS);
+                for(let i = 0;i < this.numberOfBarrage; i++){
+                    let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, tools.randomInRange(0, this.canvasHeight), this.ctx);
+                    // 初始化弹幕
+                    barrage.init();
+                    barrageDirector.addBarrage(barrage);
+                }
+                barrageDirector.start();
             }
         },
         mounted(){
