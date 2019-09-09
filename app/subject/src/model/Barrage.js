@@ -15,7 +15,12 @@ function Barrage(text, color="#fff", x, y, ctx){
 }
 // 初始化
 Barrage.prototype.init = function(){
-    this.speed = this.text.length;
+    if (this.text.length >= 8) {
+        this.speed = 0.5;
+    }
+    else{
+        this.speed = this.text.length / 32;
+    }
 }
 // 在 x, y 坐标画对应文字
 Barrage.prototype.draw = function(){
