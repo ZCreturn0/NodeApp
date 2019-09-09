@@ -29,13 +29,15 @@
                 canvasHeight: 0,
                 // 弹幕
                 barrage: [
-                    '2333333', '66666666', '前面的别跑', '来个大神分析一下', '不懂就选C', '选最长的', '收藏等于学习', '扫码干嘛,愣着呀'
+                    '2333333', '66666666', '前面的别跑', '来个大神分析一下', '不懂就选C', '选最长的', '收藏等于学习', '扫码干嘛,愣着呀',
+                    '为什么选C?', '我觉得A也对', '所以到底输出什么?', '道理我都懂,可鸽子为什么这么大', 'a不是undefined吗?', '啥是闭包',
+                    '这里this指向哪', '现在this指向window'
                 ],
                 // 颜色
                 // 踩坑提示: 颜色不要与背景色一样
-                colors: ['#000', '#ccc', 'red'],
+                colors: ['#fff', '#ccc', 'red', '#58b21e', '#d3b31e', '#6dbaed'],
                 // 帧率
-                FPS: 60,
+                FPS: 200,
                 canvas: null,
                 ctx: null,
                 // 弹幕数量
@@ -71,7 +73,6 @@
                 this.canvasWidth = this.$refs.login.getBoundingClientRect().width;
                 this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
                 this.drawImage();
-                // 负责弹幕
                 this.canvas = this.$refs.canvas;
                 this.ctx = this.canvas.getContext('2d');
             },
@@ -84,12 +85,19 @@
                 // 设置帧率
                 barrageDirector.setFPS(this.FPS);
                 // 生成弹幕
-                for(let i = 0;i < this.numberOfBarrage; i++){
-                    let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, tools.randomInRange(0, this.canvasHeight), this.ctx);
+                setInterval(() => {
+                    let y = tools.randomInRange(0, this.canvasHeight);
+                    if(y < 20){
+                        y = 20;
+                    }
+                    if(y > this.canvasHeight - 20){
+                        y = this.canvasHeight - 20;
+                    }
+                    let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, y, this.ctx);
                     // 初始化弹幕
                     barrage.init();
                     barrageDirector.addBarrage(barrage);
-                }
+                }, 1000);
                 barrageDirector.start();
             }
         },
