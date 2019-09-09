@@ -8,10 +8,16 @@ function Barrage(text, color="#fff", x, y, ctx){
 }
 Barrage.prototype.init = function(){
     this.speed = this.text.length;
-}
-Barrage.prototype.draw = function(){
     this.ctx.fillStyle = this.color;
     this.ctx.font = '16px 微软雅黑';
-    this.ctx.fillText(this.text, 100, 200);
+}
+Barrage.prototype.draw = function(){
+    this.ctx.fillText(this.text, this.x, this.y);
+}
+Barrage.prototype.move = function(){
+    setInterval(() => {
+        this.x -= this.speed;
+        this.draw();
+    }, 1000 / 60);
 }
 module.exports = Barrage;
