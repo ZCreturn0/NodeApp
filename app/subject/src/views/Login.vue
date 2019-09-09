@@ -1,5 +1,13 @@
 <template>
     <div class="login" ref="login">
+        <!-- 负责背景显示 -->
+        <canvas
+            id="bg"
+            ref="bg"
+            :width="canvasWidth"
+            :height="canvasHeight">
+        </canvas>
+        <!-- 负责弹幕显示 -->
         <canvas
             id="canvas"
             ref="canvas"
@@ -48,13 +56,19 @@
                 // 设置 canvas 宽高
                 this.canvasWidth = this.$refs.login.getBoundingClientRect().width;
                 this.canvasHeight = this.$refs.login.getBoundingClientRect().height;
+
+                // 负责背景图
+                let canvas = this.$refs.bg;
+                let ctx = canvas.getContext('2d');
+
+                // 负责弹幕
                 this.canvas = this.$refs.canvas;
                 this.ctx = this.canvas.getContext('2d');
 
                 let img = new Image();
                 img.onload = () => {
                     // 把背景图画到 canvas 上
-                    this.ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
+                    ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
                     // 生成弹幕
                     this.createBarrage();
                 };
@@ -66,7 +80,7 @@
                 // 获得弹幕机单例
                 let barrageDirector = BarrageDirector.getInstance();
                 // 设置 canvas 属性
-                barrageDirector.setCanvas(this.ctx, this.canvasWidth, this.canvasHeight, require('../assets/login/loginBG.png'));
+                barrageDirector.setCanvas(this.ctx, this.canvasWidth, this.canvasHeight);
                 // 设置帧率
                 barrageDirector.setFPS(this.FPS);
                 for(let i = 0;i < this.numberOfBarrage; i++){
@@ -89,8 +103,15 @@
     .login{
         width: 100%;
         height: 100%;
-        #canvas{
+        #canvas, #bg{
             display: block;
+            position: fixed;
+        }
+        #bg{
+            z-index: -1;
+        }
+        #canvas{
+            z-index: 100;
         }
     }
 </style>

@@ -16,11 +16,11 @@ function Barrage(text, color="#fff", x, y, ctx){
 // 初始化
 Barrage.prototype.init = function(){
     this.speed = this.text.length;
-    this.ctx.fillStyle = this.color;
-    this.ctx.font = '16px 微软雅黑';
 }
 // 在 x, y 坐标画对应文字
 Barrage.prototype.draw = function(){
+    this.ctx.fillStyle = this.color;
+    this.ctx.font = '16px 微软雅黑';
     this.ctx.fillText(this.text, this.x, this.y);
 }
 // 改变弹幕的 x 坐标,使得下次渲染弹幕往左移动

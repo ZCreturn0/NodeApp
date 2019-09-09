@@ -6,11 +6,10 @@ function BarrageDirector(){
     this.barrages = [];
 }
 // 设置 canvas 属性
-BarrageDirector.prototype.setCanvas = function(ctx, width, height, img){
+BarrageDirector.prototype.setCanvas = function(ctx, width, height){
     this.ctx = ctx;
     this.width = width;
     this.height = height;
-    this.img = img;
 }
 // 设置帧率(默认60)
 BarrageDirector.prototype.setFPS = function(fps = 60){
@@ -24,25 +23,13 @@ BarrageDirector.prototype.addBarrage = function(barrage){
 BarrageDirector.prototype.clearCanvas = function(){
     this.ctx.clearRect(0, 0, this.width, this.height);
 }
-// 画背景图
-BarrageDirector.prototype.drawImage = function(){
-    let img = new Image();
-    img.onload = () => {
-        this.ctx.drawImage(img, 0, 0, this.width, this.height);
-    };
-    // 加载背景图
-    img.src = this.img;
-}
 // 开始展示弹幕
 BarrageDirector.prototype.start = function(){
-    this.clearCanvas();
-    this.ctx.save();
     setInterval(() => {
+        this.clearCanvas();
         for (let barrage of this.barrages) {
-            this.drawImage();
             barrage.draw();
             barrage.move();
-            this.ctx.restore();
         }
     }, 1000 / this.FPS);
 }
