@@ -31,20 +31,21 @@
                 barrage: [
                     '2333333', '66666666', '前面的别跑', '来个大神分析一下', '不懂就选C', '选最长的', '收藏等于学习', '扫码干嘛,愣着呀',
                     '为什么选C?', '我觉得A也对', '所以到底输出什么?', '道理我都懂,可鸽子为什么这么大', 'a不是undefined吗?', '啥是闭包',
-                    '这里this指向哪', '现在this指向window'
+                    '这里this指向哪', '现在this指向window', '怎么又扯到原型了', '构造是什么', '怎么继承', '怎么改变this指向', '讲得很详细',
+                    '三长一短选最短,三短一长选最长'
                 ],
                 // 颜色
                 // 踩坑提示: 颜色不要与背景色一样
                 colors: [
                     '#fff', '#ccc', 'red', '#58b21e', '#d3b31e', '#6dbaed', '#e16db3', '#5dce97', '#0b76c',
-                    '#ffc300', '#d5ffc7'
+                    '#ffc300', '#d5ffc7', '#ff9a22', '#339fcc', '#83cc2b', '#f54e91', '#886af7', '#6ae1f7'
                 ],
                 // 帧率
                 FPS: 100,
                 canvas: null,
                 ctx: null,
-                // 弹幕数量
-                numberOfBarrage: 20
+                // 弹幕生成间隔
+                barrageCreateInterval: 1000
             }
         },
         methods: {
@@ -100,7 +101,7 @@
                     // 初始化弹幕
                     barrage.init();
                     barrageDirector.addBarrage(barrage);
-                }, 1000);
+                }, this.barrageCreateInterval);
                 barrageDirector.start();
             }
         },

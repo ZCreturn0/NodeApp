@@ -19,6 +19,14 @@ BarrageDirector.prototype.setFPS = function(fps = 60){
 BarrageDirector.prototype.addBarrage = function(barrage){
     this.barrages.push(barrage);
 }
+// 删除弹幕
+BarrageDirector.prototype.removeBarrage = function(barrage){
+    for (let i in this.barrages) {
+        if (this.barrages[i] === barrage) {
+            this.barrages.splice(i, 1);
+        }
+    }
+}
 // 清屏
 BarrageDirector.prototype.clearCanvas = function(){
     this.ctx.clearRect(0, 0, this.width, this.height);
@@ -28,8 +36,14 @@ BarrageDirector.prototype.start = function(){
     setInterval(() => {
         this.clearCanvas();
         for (let barrage of this.barrages) {
-            barrage.draw();
-            barrage.move();
+            // 简单判断弹幕超出屏幕范围
+            if (barrage.x < -400) {
+                this.removeBarrage(barrage);
+            }
+            else{
+                barrage.draw();
+                barrage.move();
+            }
         }
     }, 1000 / this.FPS);
 }
