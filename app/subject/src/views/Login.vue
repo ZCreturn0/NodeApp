@@ -14,6 +14,8 @@
             :width="canvasWidth"
             :height="canvasHeight">
         </canvas>
+        <!-- 扫码区域 -->
+        <div id="qcode"></div>
     </div>
 </template>
 
@@ -91,6 +93,7 @@
                 // 生成弹幕
                 setInterval(() => {
                     let y = tools.randomInRange(0, this.canvasHeight);
+                    // 防止竖直方向弹幕显示不全
                     if(y < 20){
                         y = 20;
                     }
@@ -107,6 +110,14 @@
         },
         mounted(){
             this.initCanvas();
+            let wxConfig = require('@/config/wx.json');
+            console.log(wxConfig);
+            var obj = new WxLogin({
+                id:"qcode",                                 // 需要显示的容器id
+                appid: wxConfig.appid,                      // 公众号appid wx*******
+                scope: "snsapi_login",                      // 网页默认即可
+                redirect_uri: "127.0.0.1:8080",             // 授权成功后回调的url
+            });
         }
     }
 </script>
