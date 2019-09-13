@@ -110,14 +110,14 @@
         },
         mounted(){
             this.initCanvas();
-            let wxConfig = require('@/config/wx.json');
-            console.log(wxConfig);
-            var obj = new WxLogin({
-                id:"qcode",                                 // 需要显示的容器id
-                appid: wxConfig.appid,                      // 公众号appid wx*******
-                scope: "snsapi_login",                      // 网页默认即可
-                redirect_uri: "127.0.0.1:8080",             // 授权成功后回调的url
-            });
+            // let wxConfig = require('@/config/wx.json');
+            // console.log(wxConfig);
+            // var obj = new WxLogin({
+            //     id:"qcode",                                 // 需要显示的容器id
+            //     appid: wxConfig.appid,                      // 公众号appid wx*******
+            //     scope: "snsapi_login",                      // 网页默认即可
+            //     redirect_uri: "127.0.0.1:8080",             // 授权成功后回调的url
+            // });
         }
     }
 </script>
@@ -136,6 +136,17 @@
         }
         #canvas{
             z-index: 100;
+        }
+        #qcode{
+            width: 300px;
+            height: 400px;
+            border: 1px solid #000;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: #ccc;
+            transform: translate(-50%, -50%);
+            z-index: 999;
         }
     }
 </style>
