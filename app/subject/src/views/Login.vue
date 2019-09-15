@@ -15,7 +15,11 @@
             :height="canvasHeight">
         </canvas>
         <!-- 扫码区域 -->
-        <div id="qcode"></div>
+        <div id="qcode">
+            <div id="qcode_description">
+                <img src="../assets/login/qcode_description.png">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -147,6 +151,16 @@
             background: #ccc;
             transform: translate(-50%, -50%);
             z-index: 999;
+            #qcode_description{
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 200px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
         }
     }
 </style>
