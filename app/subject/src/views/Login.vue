@@ -16,6 +16,11 @@
         </canvas>
         <!-- 扫码区域 -->
         <div id="qcode">
+            <!-- 动态二维码 -->
+            <div id="dynamic-qcode">
+
+            </div>
+            <!-- 表情包 -->
             <div id="qcode_description">
                 <img src="../assets/login/qcode_description.png">
             </div>
@@ -151,11 +156,17 @@
             background: #ccc;
             transform: translate(-50%, -50%);
             z-index: 999;
+            #dynamic-qcode{
+                width: 290px;
+                height: 200px;
+                padding: 5px;
+                background: #fff;
+            }
             #qcode_description{
                 position: absolute;
                 bottom: 0;
                 width: 100%;
-                height: 200px;
+                height: 190px;
                 img{
                     width: 100%;
                     height: 100%;
