@@ -33,19 +33,42 @@ BarrageDirector.prototype.clearCanvas = function(){
 }
 // 开始展示弹幕
 BarrageDirector.prototype.start = function(){
-    setInterval(() => {
+    let timer;
+    // 正常控制弹幕动画
+    timer = setInterval(() => {
         this.clearCanvas();
         for (let barrage of this.barrages) {
             // 简单判断弹幕超出屏幕范围
             if (barrage.x < -400) {
                 this.removeBarrage(barrage);
-            }
-            else{
+            } else {
                 barrage.draw();
                 barrage.move();
             }
         }
     }, 1000 / this.FPS);
+    // 切换窗口时停止弹幕动画
+    document.addEventListener("visibilitychange", (e) => {
+        // 隐藏窗口时停止弹幕动画
+        if (e.target.hidden) {
+            clearInterval(timer);
+        }
+        // 窗口可见时恢复弹幕动画
+        else{
+            timer = setInterval(() => {
+                this.clearCanvas();
+                for (let barrage of this.barrages) {
+                    // 简单判断弹幕超出屏幕范围
+                    if (barrage.x < -400) {
+                        this.removeBarrage(barrage);
+                    } else {
+                        barrage.draw();
+                        barrage.move();
+                    }
+                }
+            }, 1000 / this.FPS);
+        }
+    });
 }
 // 获取单例, 保证只有一个弹幕机对象
 BarrageDirector.getInstance = (function(){

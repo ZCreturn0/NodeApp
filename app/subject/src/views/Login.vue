@@ -99,8 +99,10 @@
                 barrageDirector.setCanvas(this.ctx, this.canvasWidth, this.canvasHeight);
                 // 设置帧率
                 barrageDirector.setFPS(this.FPS);
-                // 生成弹幕
-                setInterval(() => {
+                // 生成弹幕计时器
+                let timer;
+                // 正常生成弹幕
+                timer = setInterval(() => {
                     let y = tools.randomInRange(0, this.canvasHeight);
                     // 防止竖直方向弹幕显示不全
                     if(y < 20){
@@ -114,6 +116,30 @@
                     barrage.init();
                     barrageDirector.addBarrage(barrage);
                 }, this.barrageCreateInterval);
+                // 切换窗口时停止生成弹幕
+                document.addEventListener("visibilitychange", (e) => {
+                    // 隐藏窗口时停止生成弹幕
+                    if (e.target.hidden) {
+                        clearInterval(timer);
+                    }
+                    else{
+                        // 窗口可见时恢复生成弹幕
+                        timer = setInterval(() => {
+                            let y = tools.randomInRange(0, this.canvasHeight);
+                            // 防止竖直方向弹幕显示不全
+                            if(y < 20){
+                                y = 20;
+                            }
+                            if(y > this.canvasHeight - 20){
+                                y = this.canvasHeight - 20;
+                            }
+                            let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, y, this.ctx);
+                            // 初始化弹幕
+                            barrage.init();
+                            barrageDirector.addBarrage(barrage);
+                        }, this.barrageCreateInterval);
+                    }
+                })
                 barrageDirector.start();
             }
         },
