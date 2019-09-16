@@ -21,9 +21,9 @@
 
             </div>
             <!-- 表情包 -->
-            <div id="qcode_description">
+            <!-- <div id="qcode_description">
                 <img src="../assets/login/qcode_description.png">
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -91,18 +91,9 @@
                 this.canvas = this.$refs.canvas;
                 this.ctx = this.canvas.getContext('2d');
             },
-            // 生成弹幕
-            createBarrage(){
-                // 获得弹幕机单例
-                let barrageDirector = BarrageDirector.getInstance();
-                // 设置 canvas 属性
-                barrageDirector.setCanvas(this.ctx, this.canvasWidth, this.canvasHeight);
-                // 设置帧率
-                barrageDirector.setFPS(this.FPS);
-                // 生成弹幕计时器
-                let timer;
-                // 正常生成弹幕
-                timer = setInterval(() => {
+            // 启动定时器, 并返回 timer
+            getTimer(barrageDirector){
+                return setInterval(() => {
                     let y = tools.randomInRange(0, this.canvasHeight);
                     // 防止竖直方向弹幕显示不全
                     if(y < 20){
@@ -116,6 +107,19 @@
                     barrage.init();
                     barrageDirector.addBarrage(barrage);
                 }, this.barrageCreateInterval);
+            },
+            // 生成弹幕
+            createBarrage(){
+                // 获得弹幕机单例
+                let barrageDirector = BarrageDirector.getInstance();
+                // 设置 canvas 属性
+                barrageDirector.setCanvas(this.ctx, this.canvasWidth, this.canvasHeight);
+                // 设置帧率
+                barrageDirector.setFPS(this.FPS);
+                // 生成弹幕计时器
+                let timer;
+                // 正常生成弹幕
+                timer = this.getTimer(barrageDirector);
                 // 切换窗口时停止生成弹幕
                 document.addEventListener("visibilitychange", (e) => {
                     // 隐藏窗口时停止生成弹幕
@@ -124,20 +128,7 @@
                     }
                     else{
                         // 窗口可见时恢复生成弹幕
-                        timer = setInterval(() => {
-                            let y = tools.randomInRange(0, this.canvasHeight);
-                            // 防止竖直方向弹幕显示不全
-                            if(y < 20){
-                                y = 20;
-                            }
-                            if(y > this.canvasHeight - 20){
-                                y = this.canvasHeight - 20;
-                            }
-                            let barrage = new Barrage(this.getRandomBarrage(), this.getRandomColor(), this.canvasWidth, y, this.ctx);
-                            // 初始化弹幕
-                            barrage.init();
-                            barrageDirector.addBarrage(barrage);
-                        }, this.barrageCreateInterval);
+                        timer = this.getTimer(barrageDirector);
                     }
                 })
                 barrageDirector.start();

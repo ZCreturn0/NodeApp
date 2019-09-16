@@ -31,11 +31,9 @@ BarrageDirector.prototype.removeBarrage = function(barrage){
 BarrageDirector.prototype.clearCanvas = function(){
     this.ctx.clearRect(0, 0, this.width, this.height);
 }
-// 开始展示弹幕
-BarrageDirector.prototype.start = function(){
-    let timer;
-    // 正常控制弹幕动画
-    timer = setInterval(() => {
+// 启动弹幕运动并返回 timer
+BarrageDirector.prototype.getTimer = function(){
+    return setInterval(() => {
         this.clearCanvas();
         for (let barrage of this.barrages) {
             // 简单判断弹幕超出屏幕范围
@@ -47,6 +45,12 @@ BarrageDirector.prototype.start = function(){
             }
         }
     }, 1000 / this.FPS);
+}
+// 开始展示弹幕
+BarrageDirector.prototype.start = function(){
+    let timer;
+    // 正常控制弹幕动画
+    timer = this.getTimer();
     // 切换窗口时停止弹幕动画
     document.addEventListener("visibilitychange", (e) => {
         // 隐藏窗口时停止弹幕动画
@@ -55,18 +59,7 @@ BarrageDirector.prototype.start = function(){
         }
         // 窗口可见时恢复弹幕动画
         else{
-            timer = setInterval(() => {
-                this.clearCanvas();
-                for (let barrage of this.barrages) {
-                    // 简单判断弹幕超出屏幕范围
-                    if (barrage.x < -400) {
-                        this.removeBarrage(barrage);
-                    } else {
-                        barrage.draw();
-                        barrage.move();
-                    }
-                }
-            }, 1000 / this.FPS);
+            timer = this.getTimer();
         }
     });
 }
