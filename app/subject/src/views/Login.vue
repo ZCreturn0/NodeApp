@@ -21,9 +21,9 @@
 
             </div>
             <!-- 表情包 -->
-            <!-- <div id="qcode_description">
+            <div id="qcode_description">
                 <img src="../assets/login/qcode_description.png">
-            </div> -->
+            </div>
         </div>
     </div>
 </template>
